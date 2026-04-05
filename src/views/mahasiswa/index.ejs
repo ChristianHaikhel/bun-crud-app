@@ -1,0 +1,60 @@
+<% if (success) { %>
+  <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4"><%= success %></div>
+<% } %>
+<% if (error) { %>
+  <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4"><%= error %></div>
+<% } %>
+
+<div class="bg-white p-6 rounded-2xl shadow">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+    <h2 class="text-xl font-bold">Data Mahasiswa</h2>
+    <a href="/mahasiswa/create" class="bg-blue-500 text-white px-4 py-2 rounded inline-block">+ Tambah</a>
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #f3f4f6;">
+        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb;">No</th>
+        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb;">Nama</th>
+        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb;">NIM</th>
+        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb;">Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% mahasiswa.forEach((m, i) => { %>
+      <tr style="border-bottom: 1px solid #e5e7eb;">
+        <td style="padding: 12px;"><%= i + 1 %></td>
+        <td style="padding: 12px;"><%= m.nama %></td>
+        <td style="padding: 12px;"><%= m.nim %></td>
+        <td style="padding: 12px;">
+          <a href="/mahasiswa/edit/<%= m.id %>"
+            style="background-color: #f59e0b; color: white; padding: 4px 12px; border-radius: 4px; text-decoration: none; margin-right: 6px;">
+            Edit
+          </a>
+          <a href="/mahasiswa/delete/<%= m.id %>"
+            onclick="return konfirmHapus(event, this.href)"
+            style="background-color: #ef4444; color: white; padding: 4px 12px; border-radius: 4px; text-decoration: none;">
+            Hapus
+          </a>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function konfirmHapus(e, url) {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Yakin?',
+      text: 'Data akan dihapus permanen!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) window.location.href = url;
+    });
+  }
+</script>
